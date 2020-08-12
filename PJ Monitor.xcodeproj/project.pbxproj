@@ -16,7 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9AA60D5D2489A78500A8625D /* PJ Monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PJ Monitor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AA60D5D2489A78500A8625D /* PJ Control.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PJ Control.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AA60D602489A78500A8625D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9AA60D622489A78500A8625D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9AA60D642489A78500A8625D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -48,7 +48,7 @@
 		9AA60D5E2489A78500A8625D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9AA60D5D2489A78500A8625D /* PJ Monitor.app */,
+				9AA60D5D2489A78500A8625D /* PJ Control.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -84,7 +84,7 @@
 			);
 			name = "PJ Monitor";
 			productName = "PJ Monitor";
-			productReference = 9AA60D5D2489A78500A8625D /* PJ Monitor.app */;
+			productReference = 9AA60D5D2489A78500A8625D /* PJ Control.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -292,7 +292,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jiamer.PJ-Monitor";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "PJ Control";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -310,7 +310,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jiamer.PJ-Monitor";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "PJ Control";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
