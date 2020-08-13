@@ -19,7 +19,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var lightLeftIndicator: UIActivityIndicatorView!
     @IBOutlet weak var lightRightIndicator: UIActivityIndicatorView!
     @IBOutlet weak var batteryIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var batteryCurrentLevelLabel: UILabel!
+    @IBOutlet weak var batteryVoltageLabel: UILabel!
+    @IBOutlet weak var batteryConditionLabel: UILabel!
     @IBOutlet weak var lightLeftButton: UIButton!
     @IBOutlet weak var lightRightButton: UIButton!
     @IBOutlet weak var lightLeftSlide: UISlider!
@@ -31,14 +32,9 @@ class ViewController: UIViewController {
     
     var pjControlPeripheral: CBPeripheral!
     
-    let batteryServiceCBUUID = CBUUID(string: "180F")
-    let batteryLevelCharacteristicCBUUID = CBUUID(string: "2A19")
-    
-    let ibsServiceCBUUID = CBUUID(string: "180F")
-    let ibsSocCharacteristicCBUUID = CBUUID(string: "2A19")
-    let ibsSohCharacteristicCBUUID = CBUUID(string: "2A19")
-    let ibsVoltageCharacteristicCBUUID = CBUUID(string: "2A19")
-    let ibsTemperatureCharacteristicCBUUID = CBUUID(string: "2A19")
+    let batteryServiceCBUUID = CBUUID(string: "9f832063-bbe1-45b2-b9cb-b4c7b2a0c36a")
+    let batteryLevelCharacteristicCBUUID = CBUUID(string: "cd3d8382-99b8-434e-b221-74d18e68df9a")
+    let batteryVoltageCharacteristicCBUUID = CBUUID(string: "d5e05399-8d79-40bd-afaf-db7b63eb6035")
     
     let leftLightServiceCBUUID = CBUUID(string: "98194a8e-a697-4b49-93f5-25ca2602013c")
     let leftLightDimmCharacteristicCBUUID = CBUUID(string: "4d5c48e8-509c-4f61-a39d-ccb8f78dee34")
@@ -62,6 +58,10 @@ class ViewController: UIViewController {
         lightRightIndicator.startAnimating()
         lightRightIndicator.hidesWhenStopped = true
         
+        batteryVoltageLabel.text = "--"
+        batteryVoltageLabel.isEnabled = false
+        batteryConditionLabel.text = "--"
+        batteryConditionLabel.isEnabled =  false
         batteryIndicator.startAnimating()
         batteryIndicator.hidesWhenStopped = true
         
@@ -76,18 +76,52 @@ class ViewController: UIViewController {
         lightRightButton.isEnabled = false
         lightRightCurrentLevel.isEnabled = false
         
-        batteryCurrentLevelLabel.text = "--"
+        
     }
     
-    func onBatteryLevelReceived(_ batteryLevel: Int) {
-        
-        if(batteryLevel == -1) {
-            batteryCurrentLevelLabel.text = "--"
+    func setBatteryConditionLabel(_ batteryVoltage: Double) {
+        if batteryVoltage > 12.0 {
+            batteryConditionLabel.text = "Super".uppercased()
+            return
+        }
+        if batteryVoltage < 11.0 {
+            batteryConditionLabel.text = "Achtung".uppercased()
+            return
+        }
+        if batteryVoltage < 12.0 {
+            batteryConditionLabel.text = "Gut".uppercased()
             return
         }
         
+    }
+    
+    func setBatteryLevelLabel(_ batteryVoltage: Double) {
+        batteryVoltageLabel.text = String(format: "%.1f V", batteryVoltage)
+    }
+    
+    func setBatteryLevelInvalid() {
+        batteryVoltageLabel.text = "--"
+    }
+    
+    func isBatteryLevelValid(_ batteryLevel: Int) -> Bool {
+        return batteryLevel != -1
+    }
+    
+    func onBatteryVoltageReceived(_ batteryVoltageRaw: Int) {
+        
+        if !isBatteryLevelValid(batteryVoltageRaw) {
+            setBatteryLevelInvalid()
+            return
+        }
+        
+        batteryVoltageLabel.isEnabled = true
+        batteryConditionLabel.isEnabled =  true
+        
+        let batteryVoltage: Double = Double(batteryVoltageRaw)*0.1
+        
+        setBatteryConditionLabel(batteryVoltage)
+        setBatteryLevelLabel(batteryVoltage)
         batteryIndicator.stopAnimating()
-        batteryCurrentLevelLabel.text = "\(batteryLevel) %"
     }
     
     func onLedDimmLevelReceived(_ dimmLevel: Int) {
@@ -211,6 +245,12 @@ extension ViewController: CBCentralManagerDelegate {
         lightLeftSlide.isEnabled = false
         lightLeftButton.isEnabled = false
         lightLeftCurrentLevel.isEnabled = false
+        
+        batteryVoltageLabel.text = "--"
+        batteryVoltageLabel.isEnabled = false
+        batteryConditionLabel.text = "--"
+        batteryConditionLabel.isEnabled =  false
+        batteryIndicator.startAnimating()
     }
 }
 
@@ -222,7 +262,6 @@ extension ViewController: CBPeripheralDelegate {
         
         for service in services {
             print(service)
-            print(service.characteristics ?? "chars are nil")
             peripheral.discoverCharacteristics(nil, for: service)
         }
     }
@@ -267,7 +306,6 @@ extension ViewController: CBPeripheralDelegate {
             onLedDimmLevelReceived(dimmLevel)
             break
         default:
-            print("Unhandled Characteristic UUID: \(characteristic.uuid)")
             break
         }
     }
@@ -275,15 +313,16 @@ extension ViewController: CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         switch characteristic.uuid {
         case batteryLevelCharacteristicCBUUID:
+            break
+        case batteryVoltageCharacteristicCBUUID:
             let batteryLevel = getIntFromCharacteristic(from: characteristic)
-            onBatteryLevelReceived(batteryLevel)
+            onBatteryVoltageReceived(batteryLevel)
             break
         case leftLightDimmCharacteristicCBUUID:
             let dimmLevel = getIntFromCharacteristic(from: characteristic)
             onLedDimmLevelReceived(dimmLevel)
             break
         default:
-            print("Unhandled Characteristic UUID: \(characteristic.uuid)")
             break
         }
     }

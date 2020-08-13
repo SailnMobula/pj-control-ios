@@ -187,14 +187,14 @@
                                                                 <color key="textColor" name="Color-5"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="87%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vZs-Mg-ugt">
-                                                                <rect key="frame" x="0.0" y="32" width="35.333333333333336" height="20.333333333333329"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12,2V" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vZs-Mg-ugt">
+                                                                <rect key="frame" x="0.0" y="32" width="45.333333333333336" height="20.333333333333329"/>
                                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                 <color key="textColor" name="Color-5"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12,2V" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XBk-tB-B6F">
-                                                                <rect key="frame" x="0.0" y="60.333333333333321" width="40.333333333333336" height="19.333333333333336"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GUT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XBk-tB-B6F">
+                                                                <rect key="frame" x="0.0" y="60.333333333333321" width="33" height="19.333333333333336"/>
                                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                                                 <color key="textColor" name="Color-5"/>
                                                                 <nil key="highlightedColor"/>
@@ -240,9 +240,10 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="batteryCurrentLevelLabel" destination="vZs-Mg-ugt" id="FrC-sw-27i"/>
+                        <outlet property="batteryConditionLabel" destination="XBk-tB-B6F" id="g03-7X-zZF"/>
                         <outlet property="batteryIndicator" destination="v34-MI-4Fx" id="46e-Xy-ox9"/>
                         <outlet property="batteryView" destination="cf2-6P-CkQ" id="iPH-Ga-l1e"/>
+                        <outlet property="batteryVoltageLabel" destination="vZs-Mg-ugt" id="FrC-sw-27i"/>
                         <outlet property="lightLeftButton" destination="pQk-gq-eA6" id="h3E-eN-FMT"/>
                         <outlet property="lightLeftCurrentLevel" destination="Y3A-CN-hfH" id="fSf-pS-WNG"/>
                         <outlet property="lightLeftIndicator" destination="VgT-Iy-JCv" id="O9f-f6-2UO"/>
