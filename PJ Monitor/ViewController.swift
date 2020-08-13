@@ -75,6 +75,8 @@ class ViewController: UIViewController {
         lightRightSlider.isEnabled = false
         lightRightButton.isEnabled = false
         lightRightCurrentLevel.isEnabled = false
+        
+        batteryCurrentLevelLabel.text = "--"
     }
     
     func onBatteryLevelReceived(_ batteryLevel: Int) {
