@@ -21,9 +21,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var batteryIndicator: UIActivityIndicatorView!
     @IBOutlet weak var batteryVoltageLabel: UILabel!
     @IBOutlet weak var batteryConditionLabel: UILabel!
+    @IBOutlet weak var batteryConditionImage: UIImageView!
     @IBOutlet weak var lightLeftButton: UIButton!
     @IBOutlet weak var lightRightButton: UIButton!
-    @IBOutlet weak var lightLeftSlide: UISlider!
+    @IBOutlet weak var lightLeftSlider: UISlider!
     @IBOutlet weak var lightRightSlider: UISlider!
     
     let generator = UINotificationFeedbackGenerator()
@@ -51,7 +52,7 @@ class ViewController: UIViewController {
         
         lightLeftIndicator.startAnimating()
         lightLeftIndicator.hidesWhenStopped = true
-        lightLeftSlide.isEnabled = false
+        lightLeftSlider.isEnabled = false
         lightLeftButton.isEnabled = false
         lightLeftCurrentLevel.isEnabled = false
         
@@ -80,19 +81,25 @@ class ViewController: UIViewController {
     }
     
     func setBatteryConditionLabel(_ batteryVoltage: Double) {
-        if batteryVoltage > 12.0 {
+        if batteryVoltage > 11.5 {
             batteryConditionLabel.text = "Super".uppercased()
+            batteryConditionImage.image = UIImage(systemName: "checkmark.circle.fill")
+            batteryConditionImage.tintColor = UIColor(named: "Color-4")
             return
         }
-        if batteryVoltage < 11.0 {
+        if batteryVoltage <= 11.0 {
             batteryConditionLabel.text = "Achtung".uppercased()
+            batteryConditionImage.image = UIImage(systemName: "exclamationmark.triangle.fill")
+            batteryConditionImage.tintColor = UIColor(named: "Color-8")
             return
         }
-        if batteryVoltage < 12.0 {
-            batteryConditionLabel.text = "Gut".uppercased()
+        if batteryVoltage <= 11.5 {
+            batteryConditionLabel.text = "Ok".uppercased()
+            batteryConditionImage.image = UIImage(systemName: "exclamationmark.circle.fill")
+            batteryConditionImage.tintColor = UIColor(named: "Color-7")
             return
         }
-        
+
     }
     
     func setBatteryLevelLabel(_ batteryVoltage: Double) {
@@ -191,14 +198,14 @@ class ViewController: UIViewController {
         if(currentDimmLevel) > 0 {
             writeLightLeftDimmLevel(0)
             generator.notificationOccurred(.success)
-            lightLeftSlide.value = 0
+            lightLeftSlider.value = 0
             return
         }
         
         if(currentDimmLevel) == 0 {
             writeLightLeftDimmLevel(100)
             generator.notificationOccurred(.success)
-            lightLeftSlide.value = 1
+            lightLeftSlider.value = 1
             return
         }
     }
@@ -242,7 +249,7 @@ extension ViewController: CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         centralManager.scanForPeripherals(withServices: [leftLightServiceCBUUID, batteryServiceCBUUID])
         lightLeftIndicator.startAnimating()
-        lightLeftSlide.isEnabled = false
+        lightLeftSlider.isEnabled = false
         lightLeftButton.isEnabled = false
         lightLeftCurrentLevel.isEnabled = false
         
@@ -286,7 +293,7 @@ extension ViewController: CBPeripheralDelegate {
                 if characteristic.properties.contains(.write) {
                     ledDimmCharacteristic = characteristic
                     lightLeftIndicator.stopAnimating()
-                    lightLeftSlide.isEnabled = true
+                    lightLeftSlider.isEnabled = true
                     lightLeftButton.isEnabled = true
                     lightLeftCurrentLevel.isEnabled = true
                 }
